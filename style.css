@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: rgb(80, 80, 80);
+  color: white;
+}
+
+header {
+  margin-left: 0.5vw;
+  margin-top: 0.75vh;
+}
+img {
+  width: 30vw;
+}
+header > p {
+  font-family: monospace;
+}
+
+.section {
+  width: 100%;
+  margin-top: 2.5vh;
+  padding-top: 1vh;
+  padding-left: 1vw;
+  background-color: rgb(35, 35, 35);
+  border-radius: 10px;
+  font-family: monospace;
+}
+.section > h2 {
+  background-color: inherit;
+  font-size: 1.5rem;
+}
+.sketch-div {
+  height: 550px;
+  background-color: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.disclaimer-div {
+  margin-left: 0.5vw;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+  font-size: 1.5rem;
+}
