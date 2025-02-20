@@ -1,5 +1,6 @@
 function setup() {
   // Canvas size to match the published sketches on the site
+  // Need to assign the createCanvas function to a variable then use .parent to add it to the div using the id of the sketch-div
   const staticCanvas = createCanvas(770, 514);
   staticCanvas.parent("staticSketch");
 }
