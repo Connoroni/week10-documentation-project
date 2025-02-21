@@ -32,7 +32,7 @@
         </p>
         <div class="sketch-div" id="staticSketch">
           <img
-            src="/public/sketches/static.png"
+            src="/public/assets/static.png"
             alt="A sketch of a simple house on a grassy field with a sun in the top right. All made of simple lines."
             class="static-img"
           />
@@ -106,10 +106,11 @@
         </p>
         <div class="sketch-div" id="animatedSketch">
           <video
-            src="/public/sketches/animated.mp4"
+            src="/public/assets/animated.mp4"
             width="770"
             height="514"
             controls
+            loop
           ></video>
           <!-- <script src="./sketches/animatedSketch.js"></script> -->
         </div>
@@ -187,9 +188,258 @@
         </div>
       </section>
       <section class="section">
+        <h2>Interactive Sketch</h2>
+        <p class="description">
+          A basic interactive sketch is more simple than some of those we've
+          just shown, with the most simple option being to set an element's
+          position to built-in variables mouseX and mouseY meaning it will move
+          with the cursor. <br />
+          This example uses a slider to let users simulate a fern blowing in the
+          wind. It gets pretty crazy at higher values on the slider.
+        </p>
+        <div class="sketch-div" id="interactiveSketch">
+          <video
+            src="./public/assets/interactive.mp4"
+            width="770"
+            height="514"
+            controls
+            loop
+          ></video>
+        </div>
+        <div class="code-div">
+          <p>
+            let brown1, brown2, slider;<br />
+            function setup() {<br />
+            createCanvas(windowWidth, windowHeight);<br />
+            // working in degrees not radians, slightly less performant but
+            easier for humans to read<br />
+            angleMode(DEGREES);<br />
+            // prevent the draw function from being called recursively<br />
+            noLoop();<br />
+            // smooth the stroke joins<br />
+            strokeJoin(ROUND);<br />
+            // define branch colours<br />
+            brown1 = color("#38D360");<br />
+            brown2 = color("#4BAF64");<br />
+            // create a slider<br />
+            slider = createSlider(5, 180, 5);<br />
+            slider.position(10, 10);<br />
+            slider.style("width", "300px");<br />
+            // when the slider changes, redraw the fern<br />
+            slider.input(draw);<br />
+            }<br />
+            function draw() {<br />
+            background(180);<br />
+            // this resets all the transforms (translations and rotations)<br />
+            resetMatrix();<br />
+            // initially translate to the middle of the bottom edge of the
+            canvas<br />
+            translate(width / 2, height);<br />
+            branch(150);<br />
+            }<br />
+            function branch(len) {<br />
+            // length of branch to draw<br />
+            // the maximum/minimum angle of each branch<br />
+            // value taken from the slider<br />
+            let maxAngle = slider.value();<br />
+            // use map() to derive branch stroke weight from current length of
+            branch<br />
+            strokeWeight(map(len, 10, 200, 1, 10));<br />
+            // semi-randomly mix two colours for each branch segment<br />
+            stroke(lerpColor(brown1, brown2, random(0.3, 0.7)));<br />
+            // the draw command for a branch<br />
+            line(0, 0, 0, -len);<br />
+            // immediately translate the drawing context to the top of the line
+            ready for the next branch call<br />
+            translate(0, -len);<br />
+            // recursion exit condition<br />
+            if (len > 10) {<br />
+            // draw leaf and terminate recursion<br />
+            if (len < 15) {<br />
+            console.log("Ferntest");<br />
+            // semi-random leaf colour<br />
+            let r = 10 + random(-20, 20);<br />
+            let g = 160 + random(-20, 20);<br />
+            let b = 15 + random(-20, 20);<br />
+            fill(r, g, b, 90);<br />
+            // semi-random leaf size<br />
+            let size = 200 + random(40);<br />
+            noStroke();<br />
+            } else {<br />
+            let arm = len * 1.1;<br />
+            // length of arm<br />
+            push();<br />
+            rotate(90);<br />
+            line(0, 0, 0, -arm);<br />
+            let spacer = 30;<br />
+            // space between leaves<br />
+            let size = 18;<br />
+            // leaf size<br />
+            for (let i = 0; i < arm; i += spacer) {<br />
+            let r = 10 + random(-20, 20);<br />
+            let g = 160 + random(-20, 20);<br />
+            let b = 15 + random(-20, 20);<br />
+            fill(r, g, b, 100);<br />
+            ellipse(size, i, size * 2, size);<br />
+            ellipse(-size, i, size * 2, size);<br />
+            //fern leaves left size<br />
+            noStroke();<br />
+            }<br />
+            pop();<br />
+            push();<br />
+            rotate(-90);<br />
+            line(0, 0, 0, -arm);<br />
+            for (let i = 0; i < arm; i += spacer) {<br />
+            let r = 10 + random(-20, 20);<br />
+            let g = 160 + random(-20, 20);<br />
+            let b = 15 + random(-20, 20);<br />
+            fill(r, g, b, 100);<br />
+            ellipse(size, i, size * 2, size);<br />
+            ellipse(-size, i, size * 2, size);<br />
+            //fern leaves right side<br />
+            noStroke();<br />
+            }<br />
+            pop();<br />
+            // branch 1<br />
+            push(); // save the current drawing context<br />
+            rotate(random(-maxAngle, maxAngle)); // rotate the whole canvas<br />
+            // 0.8 represents the ratio of the original branch size that the new
+            branch size should be<br />
+            branch(len * 0.8); // create a new branch<br />
+            pop(); // restore the drawing context<br />
+            }<br />
+            }<br />
+            }<br />
+          </p>
+        </div>
+      </section>
+      <section class="section">
         <h2>Generative Sketch</h2>
-        <p class="description"></p>
-        <div class="sketch-div" id="generativeSketch"></div>
+        <p class="description">
+          This is an example of what we're calling a generative sketch. It uses
+          the random() function to ensure that the sketch is never the same each
+          time.<br />
+          The tree below uses random() for the colours of the leaves and the
+          angle of rotation of the branches. This is all tied to the slider
+          which changes the maximum angle of the branches, meaning that having
+          the slider on the left will give a low angle and a vertical tree while
+          having it on the right makes the tree go crazy.
+        </p>
+        <div class="sketch-div" id="generativeSketch">
+          <video
+            src="./public/assets/generative.mp4"
+            width="770"
+            height="514"
+            controls
+            loop
+          ></video>
+        </div>
+        <div class="code-div">
+          <p>
+            let brown1, brown2, slider;<br />
+            function setup() {<br />
+            createCanvas(windowWidth, windowHeight);<br />
+            // working in degrees not radians, slightly less performance but
+            easier for humans to read<br />
+            angleMode(DEGREES);<br />
+            // prevent the draw function from being called recursively<br />
+            noLoop();<br />
+            // smooth the stroke joins<br />
+            strokeJoin(ROUND);<br />
+            // define branch colours<br />
+            brown1 = color("#AB589D");<br />
+            brown2 = color("#587FAB");<br />
+            // create a slider<br />
+            slider = createSlider(5, 180, 45);<br />
+            slider.position(10, 10);<br />
+            slider.style("width", "300px");<br />
+            // when the slider changes, redraw the tree<br />
+            slider.input(draw);<br />
+            }<br />
+            function draw() {<br />
+            background(180);<br />
+            // this resets all the transforms (translations and rotations)<br />
+            resetMatrix();<br />
+            // initially translate to the middle of the bottom edge of the
+            canvas<br />
+            translate(width / 2, height);<br />
+            branch(200);<br />
+            }<br />
+            function branch(len) {<br />
+            // length of branch to draw<br />
+            // the maximum/minimum angle of each branch<br />
+            // value taken from the slider<br />
+            let maxAngle = slider.value();<br />
+            // use map() to derive branch stroke weight from current length of
+            branch<br />
+            strokeWeight(map(len, 20, 200, 1, 10));<br />
+            // semi-randomly mix two colours for each branch segment<br />
+            stroke(lerpColor(brown1, brown2, random(0.3, 0.7)));<br />
+            // the draw command for a branch<br />
+            line(0, 0, 0, -len);<br />
+            // immediately translate the drawing context to the top of the line
+            ready for the next branch call<br />
+            translate(0, -len);<br />
+            // recursion exit condition<br />
+            if (len > 10) {<br />
+            // draw leaf and terminate recursion<br />
+            if (len < 15) {<br />
+            // semi-random leaf colour<br />
+            let r = 220 + random(-20, 20);<br />
+            let g = 220 + random(-20, 20);<br />
+            let b = 170 + random(-20, 20);<br />
+            fill(r, g, b, 70);<br />
+            // semi-random leaf size<br />
+            let size = 30 + random(15);<br />
+            noStroke();<br />
+            // start a leaf shape<br />
+            beginShape();<br />
+            let radius = random(10, 30);<br />
+            // draw a semi-circle<br />
+            for (let i = 45; i < 135; i++) {<br />
+            // use trig to calculate positions<br />
+            let x = radius * cos(i);<br />
+            let y = radius * sin(i);<br />
+            // add each position to the shape<br />
+            vertex(x, y);<br />
+            }<br />
+            // draw an opposing semi-circle<br />
+            for (let i = 135; i > 45; i--) {<br />
+            let x = radius * cos(i);<br />
+            let y = radius * sin(-i);<br />
+            vertex(x, y);<br />
+            }<br />
+            // join the points to create a continuous shape<br />
+            endShape(CLOSE);<br />
+            } else {<br />
+            // branch 1<br />
+            push(); // save the current drawing context<br />
+            rotate(random(-maxAngle, maxAngle)); // rotate the whole canvas<br />
+            // 0.8 represents the ratio of the original branch size that the new
+            branch size should be<br />
+            branch(len * 0.8); // create a new branch<br />
+            pop(); // restore the drawing context<br />
+            // repeat for each branch<br />
+            // branch 2<br />
+            push();<br />
+            rotate(random(-maxAngle, maxAngle));<br />
+            branch(len * 0.5);<br />
+            pop();<br />
+            // branch 3<br />
+            push();<br />
+            rotate(random(-maxAngle, maxAngle));<br />
+            branch(len * 0.5);<br />
+            pop();<br />
+            // branch 4<br />
+            push();<br />
+            rotate(random(-maxAngle, maxAngle));<br />
+            branch(len * 0.5);<br />
+            pop();<br />
+            }<br />
+            }<br />
+            }<br />
+          </p>
+        </div>
       </section>
       <div class="disclaimer-div">
         <p>
@@ -200,20 +450,17 @@
         </p>
       </div>
       <section class="section">
-        <h2>Interactive Sketch</h2>
+        <h2>Game Sketch</h2>
         <p class="description">
-          A basic interactive sketch is more simple than some of those we've
-          just shown, with the most simple option being to set an element's
-          position to built-in variables mouseX and mouseY meaning it will move
-          with the cursor. <br />
-          Below is a more complex case, using p5 along with standard JavaScript
-          to create an interactive game. Similar to a cookie clicker the score
-          increases with each click, but instead of a static button we have to
-          click inside a circle that appears in a random position and shrinks
-          over time.
+          We've already included an interactive sketch, but this is an example
+          to show that p5 sketches can work alongside normal JavaScript. The
+          sketch below is something like a cookie clicker using a variable for
+          score which increases every time you click the circle. The main
+          difference is that instead of a static button this one uses a circle
+          that moves randomly and shrinks over time. It even stores high scores.
         </p>
-        <div class="sketch-div" id="interactiveSketch">
-          <script src="./sketches/interactiveSketch.js"></script>
+        <div class="sketch-div" id="gameSketch">
+          <script src="./sketches/gameSketch.js"></script>
         </div>
         <div class="code-div">
           <p>
@@ -349,10 +596,11 @@
         <div class="sketch-div" id="sketch3d">
           <!-- <script src="./sketches/3dSketch.js"></script> -->
           <video
-            src="/public/sketches/3d.mp4"
+            src="/public/assets/3d.mp4"
             widht="770"
             height="514"
             controls
+            loop
           ></video>
         </div>
         <div class="code-div">
