@@ -24,7 +24,12 @@
     <main>
       <section class="section">
         <h2>Static Sketch</h2>
-        <p></p>
+        <p class="description">
+          This is the most basic type of sketch, just a static image. The
+          elements here are given places on the canvas but unlike the more
+          complex sketches below they never move. The only functions used are
+          primitives which define a shape using arguments.
+        </p>
         <div class="sketch-div" id="staticSketch">
           <img
             src="/public/sketches/static.png"
@@ -89,7 +94,16 @@
       </section>
       <section class="section">
         <h2>Animated Sketch</h2>
-        <p></p>
+        <p class="description">
+          Adding animation to a sketch means declaring some variables and using
+          them as the arguments of a function to give it variable position or
+          size. By altering the value of the variable, the position or size of
+          the shape will also change. The easiest way is to use the frameCount
+          variable which increases with each frame (each time the draw()
+          function runs) to change the variable. <br />
+          The example below is a bit more complex, using sine and cosine waves
+          patterns to make the ellipses oscillate up and down.
+        </p>
         <div class="sketch-div" id="animatedSketch">
           <video
             src="/public/sketches/animated.mp4"
@@ -174,7 +188,7 @@
       </section>
       <section class="section">
         <h2>Generative Sketch</h2>
-        <p></p>
+        <p class="description"></p>
         <div class="sketch-div" id="generativeSketch"></div>
       </section>
       <div class="disclaimer-div">
@@ -187,7 +201,17 @@
       </div>
       <section class="section">
         <h2>Interactive Sketch</h2>
-        <p></p>
+        <p class="description">
+          A basic interactive sketch is more simple than some of those we've
+          just shown, with the most simple option being to set an element's
+          position to built-in variables mouseX and mouseY meaning it will move
+          with the cursor. <br />
+          Below is a more complex case, using p5 along with standard JavaScript
+          to create an interactive game. Similar to a cookie clicker the score
+          increases with each click, but instead of a static button we have to
+          click inside a circle that appears in a random position and shrinks
+          over time.
+        </p>
         <div class="sketch-div" id="interactiveSketch">
           <script src="./sketches/interactiveSketch.js"></script>
         </div>
@@ -308,7 +332,20 @@
       </section>
       <section class="section">
         <h2>3D Sketch</h2>
-        <p></p>
+        <p class="description">
+          3D sketches are quite different to those we've covered so far. They
+          have their own set of primitives which can be altered using
+          beginGeometry() and use three co-ordinates instead of two. Lights are
+          also added to create shadows, in this case a point light (shining from
+          a point in all directions) and a directional light (shining from an
+          ambiguous point in one direction). <br />
+          The movement in the video below is enabled with the orbitControl()
+          function unique to 3d sketches which allows users to rotate, zoom, and
+          pan the camera to view the 3d model from different angles. <br />
+          You can see below that the code for this relatively simple 3d sketch
+          is much longer than any of the previous ones with more interaction and
+          motion.
+        </p>
         <div class="sketch-div" id="sketch3d">
           <!-- <script src="./sketches/3dSketch.js"></script> -->
           <video

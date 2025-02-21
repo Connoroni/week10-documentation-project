@@ -40,6 +40,11 @@ header > p {
   align-items: center;
 }
 
+.description {
+  background-color: inherit;
+  font-family: "Times New Roman", Times, serif;
+}
+
 .static-img {
   height: 514px;
   width: 770px;
