@@ -6,6 +6,7 @@
     <title>p5.js Demo</title>
     <link rel="stylesheet" href="style.css" />
     <script src="./node_modules/p5/lib/p5.min.js" defer></script>
+    <!-- <script src="./sketches/sketch.js"></script> -->
   </head>
   <body>
     <header>
@@ -23,20 +24,172 @@
     <main>
       <section class="section">
         <h2>Static Sketch</h2>
-        <p></p>
+        <p class="description">
+          This is the most basic type of sketch, just a static image. The
+          elements here are given places on the canvas but unlike the more
+          complex sketches below they never move. The only functions used are
+          primitives which define a shape using arguments.
+        </p>
         <div class="sketch-div" id="staticSketch">
-          <script src="./sketches/staticSketch.js"></script>
+          <img
+            src="/public/sketches/static.png"
+            alt="A sketch of a simple house on a grassy field with a sun in the top right. All made of simple lines."
+            class="static-img"
+          />
+          <!-- <script src="./sketches/staticSketch.js"></script> -->
+        </div>
+        <div class="code-div">
+          <p>
+            function setup() { <br />
+            // Canvas size to match the published sketches on the site<br />
+            const staticCanvas = createCanvas(770, 514);<br />
+            staticCanvas.parent("staticSketch");<br />
+            }<br />
+            <br />
+            function draw() {<br />
+            // Sky blue background<br />
+            background(135, 206, 235);
+            <br />
+            // Set the colours for the circle with a fill colour and border
+            colour before drawing it<br />
+            fill("yellow");<br />
+            stroke("orange");<br />
+            strokeWeight(20);<br />
+            // Circle/sun in top right (x, y, size)<br />
+            circle(700, 55, 100);
+            <br />
+            // Set colours for green rectangle<br />
+            fill("green");<br />
+            stroke("black");<br />
+            strokeWeight(1);<br />
+            rect(0, 200, 770, 350);
+            <br />
+            // Make house<br />
+            fill("tan");<br />
+            stroke("brown");<br />
+            rect(50, 150, 100, 120);
+            <br />
+            // Roof<br />
+            fill("red");<br />
+            triangle(50, 150, 100, 90, 150, 150);
+            <br />
+            // Door<br />
+            fill("brown");<br />
+            rect(95, 240, 20, 30);
+            <br />
+            // Doorknob<br />
+            fill("yellow");<br />
+            circle(110, 255, 5);
+            <br />
+            // Window1<br />
+            fill("lightblue");<br />
+            stroke("white");<br />
+            rect(70, 180, 20, 20);
+            <br />
+            // Window2
+            <br />
+            rect(115, 180, 20, 20); }
+          </p>
         </div>
       </section>
       <section class="section">
         <h2>Animated Sketch</h2>
-        <p></p>
-        <div class="sketch-div" id="animatedSketch"></div>
+        <p class="description">
+          Adding animation to a sketch means declaring some variables and using
+          them as the arguments of a function to give it variable position or
+          size. By altering the value of the variable, the position or size of
+          the shape will also change. The easiest way is to use the frameCount
+          variable which increases with each frame (each time the draw()
+          function runs) to change the variable. <br />
+          The example below is a bit more complex, using sine and cosine waves
+          patterns to make the ellipses oscillate up and down.
+        </p>
+        <div class="sketch-div" id="animatedSketch">
+          <video
+            src="/public/sketches/animated.mp4"
+            width="770"
+            height="514"
+            controls
+          ></video>
+          <!-- <script src="./sketches/animatedSketch.js"></script> -->
+        </div>
+        <div class="code-div">
+          <p>
+            let x = 0;<br />
+            let y = 0;<br />
+            let theta = 0;<br />
+            let inc = 0.01;<br />
+            let offset = 0; // the amount offset from beginning of wave<br />
+            let amplitude; // amplitude of the wave<br />
+            let frequency; // frequency<br />
+            let maxAngle; // The max angle<br />
+            // setting all the variables<br />
+            <br />
+            // values for the height and width of the waves through amplitude
+            and frequency<br />
+            function setup() {<br />
+            // amplitude = windowHeight / 8;<br />
+            frequency = windowWidth / 8; // Frequency of the ellipse is set as
+            the width of the window divided by 4<br />
+            maxAngle = (windowWidth / frequency) * TWO_PI;<br />
+            // Setting the max angle of the wave by taking the window width and
+            dividing that by the established frequency, followed by a
+            multiplication of 2 pi<br />
+            createCanvas(windowWidth, windowHeight);<br />
+            noStroke();<br />
+            fill(50, 45, 230);<br />
+            }<br />
+            function draw() {<br />
+            // Background and no stroke around shapes<br />
+            background(0, 25, 25);<br />
+            noStroke();<br />
+            let length = 10;<br />
+            let ypos = height / 2;<br />
+            while (theta < maxAngle + offset) {<br />
+            // amplitude = sin(theta - offset) * (windowHeight / 2);<br />
+            amplitude = ((theta - offset) / maxAngle) * (windowHeight / 1);<br />
+            // ^ This is setting the amplitude by taking theta minus the
+            established offset and then dividing that by the max angle.<br />
+            for (i = length; i > 0; i--) {<br />
+            // Sinewave<br />
+            y = sin(theta - i * 20) * amplitude;<br />
+            // Theta is an angle that is processed by sine and then multiplied
+            by the amplitude to give us the y value<br />
+            fill(110, 0, 255 - (255 / length) * i);<br />
+            ellipse(x, y + ypos + 0, 12);<br />
+            // Example of a sinewave.<br />
+            // The ellipse determines the shape of each individual component. x
+            and y set the positions, the number at the end sets the size<br />
+            <br />
+            // arc(x, height / 2 + y, 16, width, 50, height, 50, start, 0, stop,
+            0);<br />
+            // Top cosine wave<br />
+            y = cos(theta - i * 1) * amplitude;<br />
+            fill(255 - (255 / length) * i, 45, 83);<br />
+            ellipse(x, y + ypos - 5, 4);<br />
+            // Bottom cosine wave<br />
+            y = cos(theta - i * 50) * amplitude;<br />
+            fill(255 - (255 / length) * i, 15, 83);<br />
+            circle(x, y + ypos + 10, 12);<br />
+            }<br />
+            theta += 0.5;<br />
+            x = ((theta - offset) / maxAngle) * windowWidth;<br />
+            // X has to be consistent between all of them and must be set as it
+            can't be 0<br />
+            // x is the "gap" between the ellipses.<br />
+            // This maps theta to the width of the screen.<br />
+            }<br />
+            offset += inc;<br />
+            theta = offset;<br />
+            // Enables the loop<br />
+            }<br />
+          </p>
+        </div>
       </section>
       <section class="section">
-        <h2>Interactive Sketch</h2>
-        <p></p>
-        <div class="sketch-div" id="interactiveSketch"></div>
+        <h2>Generative Sketch</h2>
+        <p class="description"></p>
+        <div class="sketch-div" id="generativeSketch"></div>
       </section>
       <div class="disclaimer-div">
         <p>
@@ -47,14 +200,345 @@
         </p>
       </div>
       <section class="section">
-        <h2>Generative Sketch</h2>
-        <p></p>
-        <div class="sketch-div" id="generativeSketch"></div>
+        <h2>Interactive Sketch</h2>
+        <p class="description">
+          A basic interactive sketch is more simple than some of those we've
+          just shown, with the most simple option being to set an element's
+          position to built-in variables mouseX and mouseY meaning it will move
+          with the cursor. <br />
+          Below is a more complex case, using p5 along with standard JavaScript
+          to create an interactive game. Similar to a cookie clicker the score
+          increases with each click, but instead of a static button we have to
+          click inside a circle that appears in a random position and shrinks
+          over time.
+        </p>
+        <div class="sketch-div" id="interactiveSketch">
+          <script src="./sketches/interactiveSketch.js"></script>
+        </div>
+        <div class="code-div">
+          <p>
+            let circleX;<br />
+            let circleY;<br />
+            let circleRadius;<br />
+            let circleMaximumRadius;<br />
+            let circleColor;<br />
+            let score = 0;<br />
+            let highScore;<br />
+            <br />
+            function setup() {<br />
+            createCanvas(720, 400);<br />
+            colorMode(HSB);<br />
+            noStroke();<br />
+            ellipseMode(RADIUS);<br />
+            textSize(36);<br />
+            <br />
+            // Get the last saved high score<br />
+            highScore = getItem('high score');<br />
+            <br />
+            // If no score was saved, start with a value of 0<br />
+            if (highScore === null) {<br />
+            highScore = 0;<br />
+            }<br />
+            }<br />
+            <br />
+            function draw() {<br />
+            background(20);<br />
+            <br />
+            // If the circle had not shrunk completely<br />
+            if (circleRadius > 0) {<br />
+            // Draw the circle<br />
+            fill(circleColor);<br />
+            circle(circleX, circleY, circleRadius);<br />
+            describeElement('Circle', 'Randomly colored shrinking circle');<br />
+            <br />
+            // Shrink it<br />
+            circleRadius -= 1;<br />
+            <br />
+            // Show the score<br />
+            textAlign(RIGHT, TOP);<br />
+            fill(220);<br />
+            text(score, width - 20, 20);<br />
+            describeElement('Score', `Text with current score: ${score}`);<br />
+            } else {<br />
+            // Otherwise show the start/end screen<br />
+            endGame();<br />
+            }<br />
+            }<br />
+            <br />
+            function startGame() {<br />
+            // Reset the score to 0<br />
+            score = 0;<br />
+            <br />
+            // Start with the circle's radius maximum at half the minimum canvas
+            dimension<br />
+            circleMaximumRadius = min(height / 2, width / 2);<br />
+            resetCircle();<br />
+            }<br />
+            <br />
+            function endGame() {<br />
+            // Pause the sketch<br />
+            noLoop();<br />
+            <br />
+            // Store the new high score<br />
+            highScore = max(highScore, score);<br />
+            storeItem('high score', highScore);<br />
+            <br />
+            textAlign(CENTER, CENTER);<br />
+            fill(220);<br />
+            let startText = `Circle Clicker<br />
+            Click the circle before it gets too small<br />
+            Score: ${score}<br />
+            High score: ${highScore}<br />
+            Click to play`;<br />
+            text(startText, 0, 0, width, height);<br />
+            describeElement('Start text', `Text reading, "${startText}"`);<br />
+            }<br />
+            <br />
+            function resetCircle() {<br />
+            // Start with the circle's radius at its maximum value<br />
+            circleRadius = circleMaximumRadius;<br />
+            circleX = random(circleRadius, width - circleRadius);<br />
+            circleY = random(circleRadius, height - circleRadius);<br />
+            circleColor = color(random(240, 360), random(40, 80), random(50,
+            90));<br />
+            }<br />
+            <br />
+            function mousePressed() {<br />
+            // If the game is unpaused<br />
+            if (isLooping() === true) {<br />
+            // Check how far the mouse is from the circle<br />
+            let distanceToCircle = dist(mouseX, mouseY, circleX, circleY);<br />
+            <br />
+            // If the mouse is closer to the circle's center than the circle's
+            radius,<br />
+            // that means the player clicked on it<br />
+            if (distanceToCircle < circleRadius) {<br />
+            // Decrease the maximum radius, but don't go below 15<br />
+            circleMaximumRadius = max(circleMaximumRadius - 1, 15);<br />
+            resetCircle();<br />
+            <br />
+            // Give the player a point<br />
+            score += 1;<br />
+            }<br />
+            // If the game is paused<br />
+            } else {<br />
+            // Start and unpause it<br />
+            startGame();<br />
+            loop();<br />
+            }<br />
+            }<br />
+          </p>
+        </div>
       </section>
       <section class="section">
         <h2>3D Sketch</h2>
-        <p></p>
-        <div class="sketch-div" id="3dSketch"></div>
+        <p class="description">
+          3D sketches are quite different to those we've covered so far. They
+          have their own set of primitives which can be altered using
+          beginGeometry() and use three co-ordinates instead of two. Lights are
+          also added to create shadows, in this case a point light (shining from
+          a point in all directions) and a directional light (shining from an
+          ambiguous point in one direction). <br />
+          The movement in the video below is enabled with the orbitControl()
+          function unique to 3d sketches which allows users to rotate, zoom, and
+          pan the camera to view the 3d model from different angles. <br />
+          You can see below that the code for this relatively simple 3d sketch
+          is much longer than any of the previous ones with more interaction and
+          motion.
+        </p>
+        <div class="sketch-div" id="sketch3d">
+          <!-- <script src="./sketches/3dSketch.js"></script> -->
+          <video
+            src="/public/sketches/3d.mp4"
+            widht="770"
+            height="514"
+            controls
+          ></video>
+        </div>
+        <div class="code-div">
+          <p>
+            const platformHeight = 110;<br />
+            const fruitCartonHeight = 74;<br />
+            let i = 1;<br />
+            <br />
+            function setup() {<br />
+            const canvas3d = createCanvas(770, 514, WEBGL);<br />
+            canvas3d.parent("sketch3d");<br />
+            setAttributes("antialias", true);<br />
+            <br />
+            describe(<br />
+            "A still life featuring cherries, strawberries, an apple, and sliced
+            plums and peaches. These are set in and around various stemmed
+            glassware. This is made in 2021 as an interpretation of a photo by
+            Victoria Jane Photography:
+            https://www.instagram.com/p/CGICi-sl4nH/."<br />
+            );<br />
+            }<br />
+            <br />
+            function mousePressed() {<br />
+            if (mouseX > 0 && mouseX < 100 && mouseY > 0 && mouseY < 100) {<br />
+            let fs = fullscreen();<br />
+            fullscreen(!fs);<br />
+            }<br />
+            }<br />
+            <br />
+            function draw() {<br />
+            orbitControl(1, 1, 0.5);<br />
+            angleMode(DEGREES);<br />
+            <br />
+            i += 0.008;<br />
+            <br />
+            background(255);<br />
+            noStroke();<br />
+            <br />
+            translate(0, 250, -300);<br />
+            directionalLight(255, 255, 255, 300, 200, -100);<br />
+            pointLight(197, 182, 182, -400, -200, 400);<br />
+            pointLight(155, 95, 155, 200, -200, 1000);<br />
+            <br />
+            pointLight(40, 40, 40, mouseX - width / 2, height / 2 - mouseY,
+            30);<br />
+            <br />
+            // ground<br />
+            push();<br />
+            ambientLight(40);<br />
+            directionalLight(120, 120, 80, 100, 200, -100);<br />
+            fill(185, 185, 127);<br />
+            translate(-width, 0, -180);<br />
+            rotateX(90);<br />
+            rect(0, 0, width * 2, height);<br />
+            pop();<br />
+            <br />
+            // backdrop<br />
+            push();<br />
+            pointLight(255, 60, 70, -150, 0, -200);<br />
+            pointLight(40, 255, 40, 150, 0, -200);<br />
+            fill(50, 50, 42);<br />
+            translate(-width, -height * 1.5, -180);<br />
+            rect(0, 0, width * 2, height * 1.5);<br />
+            pop();<br />
+            <br />
+            // platform<br />
+            push();<br />
+            translate(90, -50, 20);<br />
+            fill(253, 212, 196);<br />
+            <br />
+            rotateY(26);<br />
+            box(300, platformHeight, 300);<br />
+            rotateY(-26);<br />
+            <br />
+            translate(-16, -platformHeight / 2, 85);<br />
+            <br />
+            push();<br />
+            translate(0, -14, 0);<br />
+            rotateY(40);<br />
+            strawberry(20, 30);<br />
+            pop();<br />
+            <br />
+            push();<br />
+            translate(40, 0, 0);<br />
+            plum();<br />
+            pop();<br />
+            <br />
+            push();<br />
+            translate(90, -3.5, 30);<br />
+            rotateZ(-40);<br />
+            rotateX(-20);<br />
+            cherry();<br />
+            cherryStem(45);<br />
+            pop();<br />
+            <br />
+            push();<br />
+            translate(100, 0, 0);<br />
+            peach();<br />
+            pop();<br />
+            <br />
+            push();<br />
+            translate(-30, 0, -50);<br />
+            apple();<br />
+            <br />
+            translate(-6, -2, 116);<br />
+            rotateY(-20);<br />
+            rotateZ(20);<br />
+            plum();<br />
+            pop();<br />
+            <br />
+            push();<br />
+            translate(-36, 0, -160);<br />
+            champagneFlute();<br />
+            rotateY(40);<br />
+            translate(-50, -16, -20);<br />
+            strawberry(20, 24);<br />
+            pop();<br />
+            <br />
+            push();<br />
+            translate(-110, 0, -100);<br />
+            mediumGlass();<br />
+            translate(0, 0, 60);<br />
+            <br />
+            push();<br />
+            cherry();<br />
+            translate(24, 0, 10);<br />
+            cherry();<br />
+            <br />
+            push();<br />
+            translate(2, -2, -3);<br />
+            rotateX(5);<br />
+            rotateZ(-16);<br />
+            cherryStem(54);<br />
+            pop();<br />
+            push();<br />
+            translate(-28, -2, -8);<br />
+            rotateZ(16);<br />
+            cherryStem(64);<br />
+            pop();<br />
+            pop();<br />
+            <br />
+            translate(50, -14, 60);<br />
+            rotateY(30);<br />
+            strawberry(20, 30);<br />
+            pop();<br />
+            <br />
+            pop();<br />
+            <br />
+            // fruit carton 1<br />
+            push();<br />
+            translate(120, -platformHeight - fruitCartonHeight / 2, 0);<br />
+            rotateY(10);<br />
+            fruitCarton();<br />
+            <br />
+            translate(0, -fruitCartonHeight / 2, 0);<br />
+            push();<br />
+            translate(0, 0, 30);<br />
+            <br />
+            rotateZ(-20);<br />
+            cherry();<br />
+            cherryStem(50);<br />
+            pop();<br />
+            <br />
+            push();<br />
+            translate(22, -10, 10);<br />
+            strawberry();<br />
+            pop();<br />
+            pop();<br />
+            <br />
+            // lower fruit carton<br />
+            push();<br />
+            translate(-150, 0, 70);<br />
+            <br />
+            push();<br />
+            translate(25, 0, 100);<br />
+            cherry();<br />
+            translate(114, 0, 20);<br />
+            rotateZ(-30);<br />
+            cherry();<br />
+            cherryStem(60);<br />
+            pop();<br />
+            <br />
+            // ... (continuing with the rest of your code)<br />
+            }
+          </p>
+        </div>
       </section>
     </main>
     <footer>

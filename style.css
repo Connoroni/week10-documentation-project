@@ -21,10 +21,12 @@ header > p {
   width: 100%;
   margin-top: 2.5vh;
   padding-top: 1vh;
+  padding-bottom: 1vh;
   padding-left: 1vw;
   background-color: rgb(35, 35, 35);
   border-radius: 10px;
   font-family: monospace;
+  height: fit-content;
 }
 .section > h2 {
   background-color: inherit;
@@ -36,6 +38,25 @@ header > p {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.description {
+  background-color: inherit;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.static-img {
+  height: 514px;
+  width: 770px;
+}
+
+.code-div {
+  display: flex;
+  justify-content: center;
+  background-color: inherit;
+}
+.code-div > p {
+  width: 75%;
 }
 
 .disclaimer-div {
